@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-brand: #0D9488;
+  --color-brand-dark: #0F766E;
+  --color-brand-ink: #115E59;
+  --color-cyan: #06B6D4;
+  --color-cyan-ink: #155E75;
+  --color-bg: #FFFEFA;
+  --color-surface: #FFFFFF;
+  --color-surface-soft: #F0FDFA;
+  --color-surface-cyan: #ECFEFF;
+  --color-text: #173B3A;
+  --color-text-muted: #496563;
+  --color-border: #C7DAD7;
+  --color-success: #166534;
+  --color-warning: #92400E;
+  --color-danger: #B91C1C;
+  --color-focus: #1D4ED8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-nunito-sans), sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-manrope), sans-serif;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  /* Accessible skip to main content link */
+  .skip-link {
+    position: absolute;
+    top: -9999px;
+    left: 20px;
+    z-index: 9999;
+    padding: 12px 18px;
+    background-color: var(--color-brand-dark);
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    top: 20px;
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Accessible focus indicators across interactive controls */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support according to AGENTS.md & docs/02-design-system.md */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
