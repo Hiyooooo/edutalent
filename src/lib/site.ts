@@ -1,6 +1,6 @@
 export const site = {
   name: "EduTalent",
-  url: "https://example.invalid", // TODO: ganti domain resmi sebelum publikasi
+  url: "https://edutalent-hris.vercel.app",
   title: "EduTalent - HRIS Terpadu dengan Sistem Ujian & Perpustakaan Digital",
   description: "Tingkatkan kompetensi karyawan dengan sistem ujian online terintegrasi, e-library SOP, dan evaluasi berkala.",
   contactEmailPlaceholder: "kontak@edutalent.invalid",
