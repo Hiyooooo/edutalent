@@ -1,17 +1,24 @@
 import React from "react";
-import { site } from "@/lib/site";
+import { SiteConfig, DEFAULT_CONFIG } from "@/lib/site-config";
 
-export const WhatsAppCapsule: React.FC = () => {
+interface WhatsAppCapsuleProps {
+  config?: SiteConfig;
+}
+
+export const WhatsAppCapsule: React.FC<WhatsAppCapsuleProps> = ({ config }) => {
+  const whatsappUrl = config?.cta?.whatsapp_url || DEFAULT_CONFIG.cta.whatsapp_url;
+  const siteName = config?.site?.name || "EduTalent";
+
   return (
     <aside
       aria-label="Kontak Cepat WhatsApp"
       className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-40"
     >
       <a
-        href={site.whatsappUrl}
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Chat konsultasi melalui WhatsApp EduTalent"
+        aria-label={`Chat konsultasi melalui WhatsApp ${siteName}`}
         className="group flex items-center gap-2.5 rounded-full bg-surface border-2 border-[#25D366]/50 pl-2 pr-4 py-2 text-text shadow-lg hover:shadow-xl hover:border-[#25D366] hover:bg-surface-soft transition-all duration-200 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2"
       >
         {/* Official WhatsApp Emblem */}
@@ -37,7 +44,7 @@ export const WhatsAppCapsule: React.FC = () => {
             <span className="flex h-2 w-2 rounded-full bg-[#25D366]" aria-hidden="true" />
           </div>
           <span className="text-[11px] font-mono text-text-muted hidden sm:inline">
-            Tanya seputar EduTalent
+            Tanya seputar {siteName}
           </span>
         </div>
       </a>

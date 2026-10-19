@@ -13,36 +13,41 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { faqData } from "@/lib/faq";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { WhatsAppCapsule } from "@/components/ui/WhatsAppCapsule";
-import { site } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const config = await getSiteConfig();
+  const domainUrl = config.site.domain.startsWith("http")
+    ? config.site.domain
+    : `https://${config.site.domain}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        "@id": `${site.url}/#organization`,
-        name: site.name,
-        url: site.url,
-        description: site.description,
+        "@id": `${domainUrl}/#organization`,
+        name: config.site.name,
+        url: domainUrl,
+        description: config.seo.meta_description,
       },
       {
         "@type": "WebSite",
-        "@id": `${site.url}/#website`,
-        url: site.url,
-        name: site.name,
+        "@id": `${domainUrl}/#website`,
+        url: domainUrl,
+        name: config.site.name,
         publisher: {
-          "@id": `${site.url}/#organization`,
+          "@id": `${domainUrl}/#organization`,
         },
         inLanguage: "id-ID",
       },
       {
         "@type": "SoftwareApplication",
-        "@id": `${site.url}/#software`,
-        name: site.name,
+        "@id": `${domainUrl}/#software`,
+        name: config.site.name,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        description: site.description,
+        description: config.seo.meta_description,
         featureList: [
           "Bank soal interaktif",
           "Live proctoring anti-curang konseptual",
@@ -66,7 +71,7 @@ export default function HomePage() {
       },
       {
         "@type": "FAQPage",
-        "@id": `${site.url}/#faq`,
+        "@id": `${domainUrl}/#faq`,
         mainEntity: faqData.map((item) => ({
           "@type": "Question",
           name: item.question,
@@ -85,9 +90,9 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar />
+      <Navbar config={config} />
       <main id="main-content" className="flex-1">
-        <HeroSection />
+        <HeroSection config={config} />
         <ChallengeSection />
         <ExamSpotlight />
         <LibrarySpotlight />
@@ -96,10 +101,10 @@ export default function HomePage() {
         <ModulesSection />
         <ImplementationSection />
         <FaqSection />
-        <ContactSection />
+        <ContactSection config={config} />
       </main>
-      <Footer />
-      <WhatsAppCapsule />
+      <Footer config={config} />
+      <WhatsAppCapsule config={config} />
     </div>
   );
 }

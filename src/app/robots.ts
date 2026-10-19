@@ -1,12 +1,17 @@
 import { MetadataRoute } from "next";
-import { site } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const config = await getSiteConfig();
+  const domainUrl = config.site.domain.startsWith("http")
+    ? config.site.domain
+    : `https://${config.site.domain}`;
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${site.url}/sitemap.xml`,
+    sitemap: `${domainUrl}/sitemap.xml`,
   };
 }

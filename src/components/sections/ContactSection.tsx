@@ -1,12 +1,22 @@
 import React from "react";
 import Image from "next/image";
-import { Mail, ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { images } from "@/lib/images";
-import { site } from "@/lib/site";
+import { SiteConfig, DEFAULT_CONFIG } from "@/lib/site-config";
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  config?: SiteConfig;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ config }) => {
+  const ctaText = config?.hero?.cta_text || "Jadwalkan konsultasi";
+  const whatsappUrl = config?.cta?.whatsapp_url || DEFAULT_CONFIG.cta.whatsapp_url;
+  const isExternal =
+    whatsappUrl.startsWith("http://") ||
+    whatsappUrl.startsWith("https://") ||
+    whatsappUrl.startsWith("wa.me");
+
   return (
     <section id="contact" className="relative overflow-hidden bg-brand-ink text-white py-16 md:py-24">
       {/* Background Image EDU-06 with Flat Dark Teal Overlay (No gradient overlay) */}
@@ -35,22 +45,25 @@ export const ContactSection: React.FC = () => {
             Mulai dengan memetakan materi, assessment, dan proses administrasi yang ingin Anda hubungkan.
           </p>
 
-          {/* Primary CTA (Occurrence 5 of 5+) */}
+          {/* Primary CTA */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href={`mailto:${site.contactEmailPlaceholder}`}>
+            <a
+              href={whatsappUrl}
+              {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
               <Button
                 variant="primary"
                 size="lg"
                 className="bg-brand hover:bg-brand-dark text-white border border-brand-dark/40 shadow-md min-w-[240px]"
               >
-                Jadwalkan konsultasi
+                {ctaText}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </a>
           </div>
 
           <p className="text-xs text-surface/70 font-mono">
-            Kontak konsultasi akan diaktifkan setelah detail resmi dikonfirmasi.
+            Kontak konsultasi akan dihubungkan langsung ke WhatsApp tim kami.
           </p>
 
           <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-surface/60 border-t border-white/10">

@@ -4,8 +4,27 @@ import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { HeroLearningPathDemo } from "@/components/demos/HeroLearningPathDemo";
 import { images } from "@/lib/images";
+import { SiteConfig } from "@/lib/site-config";
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  config?: SiteConfig;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ config }) => {
+  const headline =
+    config?.hero?.headline ||
+    "Bukan Sekadar Absen, Tapi Kembangkan Potensi Karyawan Anda";
+  const subheadline =
+    config?.hero?.subheadline ||
+    "Hubungkan materi belajar, evaluasi kompetensi, dan administrasi karyawan dalam satu alur yang lebih mudah ditinjau.";
+  const ctaText = config?.hero?.cta_text || "Jadwalkan konsultasi";
+  const whatsappUrl = config?.cta?.whatsapp_url || "#contact";
+
+  const isExternalWhatsapp =
+    whatsappUrl.startsWith("http://") ||
+    whatsappUrl.startsWith("https://") ||
+    whatsappUrl.startsWith("wa.me");
+
   return (
     <section id="hero" className="relative overflow-hidden bg-bg py-12 md:py-20 lg:py-24">
       <div className="mx-auto max-w-container px-5 md:px-6">
@@ -18,18 +37,23 @@ export const HeroSection: React.FC = () => {
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[52px] font-extrabold leading-[1.08] text-text tracking-tight">
-              Bukan Sekadar Absen, Tapi Kembangkan Potensi Karyawan Anda
+              {headline}
             </h1>
 
             <p className="font-body text-base sm:text-lg text-text-muted leading-relaxed">
-              Hubungkan materi belajar, evaluasi kompetensi, dan administrasi karyawan dalam satu alur yang lebih mudah ditinjau.
+              {subheadline}
             </p>
 
-            {/* CTAs (Occurrence 2 of 5+) */}
+            {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
-              <a href="#contact">
+              <a
+                href={whatsappUrl}
+                {...(isExternalWhatsapp
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
                 <Button variant="primary" size="default">
-                  Jadwalkan konsultasi
+                  {ctaText}
                 </Button>
               </a>
               <a href="#exam">
